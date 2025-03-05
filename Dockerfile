@@ -70,7 +70,8 @@ RUN python -m pip install --no-cache-dir -r requirements.txt latentmi \
 
 RUN apt-get clean && \
     rm packages-microsoft-prod.deb && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/*
 
 ENV PYTHONUNBUFFERED=1
 ENTRYPOINT ["/bin/bash", "-c"]

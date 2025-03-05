@@ -20,6 +20,12 @@ jobs:
       - name: Check Disk Space After Deletion
         run: df -h
       
+      - name: Delete even more unnecessary tools folder
+        run: cd /opt && find . -maxdepth 1 -mindepth 1 '!' -path ./containerd '!' -path ./actionarchivecache '!' -path ./runner '!' -path ./runner-cache -exec rm -rf '{}' ';'
+
+      - name: Check Disk Space After Second Deletion
+        run: df -h
+      
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -45,6 +51,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v6
         with:
+          no-cache: true
           context: . # Path to Dockerfile context
           file: ./Dockerfile # Path to Dockerfile
           platforms: linux/amd64
