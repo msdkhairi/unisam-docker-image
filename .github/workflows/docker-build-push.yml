@@ -14,11 +14,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Make script executable
-        run: chmod +x ./free_disk_space.sh # Ensure the script has execute permissions
+      # - name: Make script executable
+      #   run: chmod +x ./free_disk_space.sh # Ensure the script has execute permissions
 
-      - name: Run free_disk_space.sh script
-        run: ./free_disk_space.sh
+      # - name: Run free_disk_space.sh script
+      #   run: ./free_disk_space.sh
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
