@@ -36,7 +36,7 @@ xformers==0.0.28.post3 --index-url https://download.pytorch.org/whl/cu124
 nvidia-ml-py
 
 deepspeed==0.16.3
-# tensorrt==10.8.0.43
+tensorrt==10.8.0.43
 
 # after installing requirements, run the following command to download coco evaluation scripts:
 # pip install git+https://github.com/bckim92/language-evaluation.git

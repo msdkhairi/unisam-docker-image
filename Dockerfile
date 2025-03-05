@@ -63,12 +63,10 @@ ENV PATH="/opt/python/bin:${PATH}"
 RUN python -m pip install --upgrade pip setuptools wheel
 
 COPY requirements.txt /
-RUN python -m pip install -r requirements.txt && \
-    python -m pip install latentmi && \
-    python -m pip install git+https://github.com/bckim92/language-evaluation.git && \
+RUN python -m pip install --no-cache-dir -r requirements.txt latentmi \
+    git+https://github.com/bckim92/language-evaluation.git && \
     python -c "import language_evaluation; language_evaluation.download('coco')" && \
-    python -m pip cache purge && \
-    rm requirements.txt
+    rm -rf /root/.cache/pip requirements.txt
 
 RUN apt-get clean && \
     rm packages-microsoft-prod.deb && \
