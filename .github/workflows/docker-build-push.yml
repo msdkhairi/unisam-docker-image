@@ -51,7 +51,6 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v6
         with:
-          no-cache: true
           context: . # Path to Dockerfile context
           file: ./Dockerfile # Path to Dockerfile
           platforms: linux/amd64
@@ -65,3 +64,6 @@ jobs:
         run: |
           echo "Digest: ${{ steps.docker_build.outputs.digest }}"
           echo "Image pushed successfully!"
+
+      - name: Check Disk Space After Build
+        run: df -h
