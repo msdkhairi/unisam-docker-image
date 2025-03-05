@@ -11,6 +11,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check Disk Space
+        run: df -h
+      
+      - name: Delete huge unnecessary tools folder
+        run: rm -rf /opt/hostedtoolcache
+
+      - name: Check Disk Space After Deletion
+        run: df -h
+      
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -19,22 +28,25 @@ jobs:
 
       # - name: Run free_disk_space.sh script
       #   run: ./free_disk_space.sh
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
+      
       - name: Docker Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Build and Push Docker Image
         id: docker_build
         uses: docker/build-push-action@v6
         with:
-          context: . # Path to your Dockerfile context, usually the repository root
-          file: ./Dockerfile # Path to your Dockerfile, adjust if needed
+          context: . # Path to Dockerfile context
+          file: ./Dockerfile # Path to Dockerfile
           platforms: linux/amd64
           push: true
           tags: |
