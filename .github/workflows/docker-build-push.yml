@@ -15,7 +15,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Delete some large packages
-        run: ./free_disk_space.sh
+        script: ./free_disk_space.sh
+        target: host
+        condition: not(eq('${{parameters.test_pool_definition.name}}', 'Default'))
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
