@@ -31,7 +31,7 @@ pycocotools==2.0.8
 xtcocotools==1.14.3
 pycocoevalcap==1.2
 
-xformers==0.0.28.post3 --index-url https://download.pytorch.org/whl/cu124
+xformers==0.0.29 --index-url https://download.pytorch.org/whl/cu124
 
 nvidia-ml-py
 
