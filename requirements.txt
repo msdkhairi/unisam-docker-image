@@ -11,7 +11,7 @@ huggingface-hub==0.28.1
 transformers==4.48.2
 timm==1.0.14
 
-lightning==2.5.0.post0
+lightning==2.5.1
 mlflow==2.20.1
 torchmetrics==1.6.1
 tensorboard==2.18.0
