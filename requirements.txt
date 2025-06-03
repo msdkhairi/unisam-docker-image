@@ -39,6 +39,8 @@ deepspeed==0.16.3
 tensorrt==10.8.0.43
 
 compressai==1.2.6
+natten==0.17.5+torch250cu124 -f https://shi-labs.com/natten/wheels/
+
 
 # after installing requirements, run the following command to download coco evaluation scripts:
 # pip install git+https://github.com/bckim92/language-evaluation.git
