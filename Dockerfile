@@ -65,6 +65,7 @@ RUN python -m pip install --upgrade pip setuptools wheel
 COPY requirements.txt /
 RUN python -m pip install --no-cache-dir -r requirements.txt latentmi \
     git+https://github.com/bckim92/language-evaluation.git && \
+    python -m pip install natten==0.17.5+torch250cu124 -f https://shi-labs.com/natten/wheels/&& \
     python -c "import language_evaluation; language_evaluation.download('coco')" && \
     rm -rf /root/.cache/pip requirements.txt
 
