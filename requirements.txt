@@ -40,6 +40,8 @@ tensorrt==10.8.0.43
 
 compressai==1.2.6
 
+mmengine==0.10.7
+
 # after installing requirements, run the following command to download coco evaluation scripts:
 # pip install git+https://github.com/bckim92/language-evaluation.git
 # python -c "import language_evaluation; language_evaluation.download('coco')"
