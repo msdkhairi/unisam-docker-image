@@ -9,48 +9,46 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Check Disk Space
+      - name: Initial Disk Space Check
         run: df -h
-      
-      - name: Delete huge unnecessary tools folder
-        run: rm -rf /opt/hostedtoolcache
 
-      - name: Check Disk Space After Deletion
+      # AGGRESSIVE CLEANUP - RUN THESE FIRST
+      - name: Free Disk Space using jlumbroso action
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true # This will remove existing Docker images
+          swap-storage: true
+
+      - name: Clean apt cache
+        run: |
+          sudo apt-get clean
+          sudo rm -rf /var/lib/apt/lists/*
+
+      - name: Delete huge unnecessary tools folder /opt/hostedtoolcache
+        run: sudo rm -rf /opt/hostedtoolcache # Added sudo in case of permission issues
+
+      - name: Delete even more unnecessary tools folder in /opt
+        run: | # Added sudo and corrected find command slightly
+          cd /opt && sudo find . -maxdepth 1 -mindepth 1 \
+          '!' -path ./containerd \
+          '!' -path ./actionarchivecache \
+          '!' -path ./runner \
+          '!' -path ./runner-cache \
+          -exec sudo rm -rf '{}' ';'
+
+      - name: Check Disk Space After Initial Cleanup
         run: df -h
-      
-      - name: Delete even more unnecessary tools folder
-        run: cd /opt && find . -maxdepth 1 -mindepth 1 '!' -path ./containerd '!' -path ./actionarchivecache '!' -path ./runner '!' -path ./runner-cache -exec rm -rf '{}' ';'
 
-      # - name: Free Disk Space (Ubuntu)
-      #   uses: jlumbroso/free-disk-space@main
-      #   with:
-      #     # this might remove tools that are actually needed,
-      #     # if set to "true" but frees about 6 GB
-      #     tool-cache: false
-          
-      #     # all of these default to true, but feel free to set to
-      #     # "false" if necessary for your workflow
-      #     android: true
-      #     dotnet: true
-      #     haskell: true
-      #     large-packages: true
-      #     docker-images: false
-      #     swap-storage: true
-
-      - name: Check Disk Space After Second Deletion
-        run: df -h
-      
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Make script executable
-      #   run: chmod +x ./free_disk_space.sh # Ensure the script has execute permissions
-
-      # - name: Run free_disk_space.sh script
-      #   run: ./free_disk_space.sh
-      
+      # Docker steps
       - name: Docker Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -59,9 +57,14 @@ jobs:
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
+      # Optional: Prune Docker system if needed before a big build,
+      # but jlumbroso/free-disk-space with docker-images:true should handle most pre-existing images.
+      # - name: Prune Docker system
+      #   run: docker system prune -af --volumes
 
       - name: Build and Push Docker Image
         id: docker_build
@@ -69,11 +72,14 @@ jobs:
         with:
           context: . # Path to Dockerfile context
           file: ./Dockerfile # Path to Dockerfile
-          platforms: linux/amd64
+          platforms: linux/amd64 # Specify platforms if needed, e.g., linux/amd64,linux/arm64
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:${{ github.sha }}
+          # Consider adding cache-from and cache-to for Docker layer caching if appropriate
+          # cache-from: type=gha
+          # cache-to: type=gha,mode=max
 
       - name: Image digest
         if: steps.docker_build.outputs.digest
@@ -81,5 +87,5 @@ jobs:
           echo "Digest: ${{ steps.docker_build.outputs.digest }}"
           echo "Image pushed successfully!"
 
-      - name: Check Disk Space After Build
+      - name: Final Disk Space Check
         run: df -h
