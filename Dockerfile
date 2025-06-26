@@ -1,6 +1,6 @@
-# FROM nvidia/cuda:12.6.3-cudnn-devel-ubuntu24.04
-FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
-# FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu22.04
+FROM nvidia/cuda:12.8.1-cudnn-devel-ubuntu24.04
+# FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
+
 
 # Install necessary packages
 ARG DEBIAN_FRONTEND=noninteractive
@@ -55,7 +55,7 @@ RUN git clone "https://github.com/pyenv/pyenv.git" ./pyenv && \
     (cd pyenv/plugins/python-build && ./install.sh) && \
     rm -rf pyenv
 
-ARG VERSION_PYTHON=3.11.11
+ARG VERSION_PYTHON=3.12.11
 RUN python-build --no-warn-script-location ${VERSION_PYTHON} /opt/python
 
 ENV PATH="/opt/python/bin:${PATH}"
@@ -63,9 +63,9 @@ ENV PATH="/opt/python/bin:${PATH}"
 RUN python -m pip install --upgrade pip setuptools wheel
 
 COPY requirements.txt /
-RUN python -m pip install --no-cache-dir -r requirements.txt latentmi \
+RUN python -m pip install --no-cache-dir -r requirements.txt \
     git+https://github.com/bckim92/language-evaluation.git && \
-    python -m pip install natten==0.17.5+torch250cu124 -f https://shi-labs.com/natten/wheels/&& \
+    python -m pip install natten==0.20.1+torch270cu128 -f https://whl.natten.org && \
     python -c "import language_evaluation; language_evaluation.download('coco')" && \
     rm -rf /root/.cache/pip requirements.txt
 
