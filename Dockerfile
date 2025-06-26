@@ -66,6 +66,7 @@ COPY requirements.txt /
 RUN python -m pip install --no-cache-dir -r requirements.txt \
     git+https://github.com/bckim92/language-evaluation.git && \
     python -m pip install natten==0.20.1+torch270cu128 -f https://whl.natten.org && \
+    python -m pip install xtcocotools==1.14.3 && \
     python -c "import language_evaluation; language_evaluation.download('coco')" && \
     rm -rf /root/.cache/pip requirements.txt
 

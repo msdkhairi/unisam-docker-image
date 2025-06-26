@@ -28,7 +28,7 @@ boto3==1.38.44
 tabulate==0.9.0
 
 pycocotools==2.0.10
-xtcocotools==1.14.3
+# xtcocotools==1.14.3
 pycocoevalcap==1.2
 
 xformers==0.0.31 --index-url https://download.pytorch.org/whl/cu128
