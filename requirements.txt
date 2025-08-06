@@ -38,7 +38,7 @@ nvidia-ml-py
 deepspeed==0.16.3
 tensorrt==10.8.0.43
 
-compressai==1.2.6
+compressai==1.2.8
 
 mmengine==0.10.7
 
