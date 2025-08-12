@@ -10,7 +10,7 @@ RUN dnf -y update && dnf -y install dnf-plugins-core && \
       https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-9.noarch.rpm \
       https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-9.noarch.rpm && \
     dnf -y groupinstall "Development Tools" && \
-    dnf -y install \
+    dnf -y install --allowerasing \
       ca-certificates \
       curl \
       ffmpeg \
