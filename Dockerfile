@@ -24,7 +24,6 @@ RUN dnf -y update && dnf -y install dnf-plugins-core && \
       unzip \
       wget \
       bzip2 \
-      # dev headers for building Python via python-build (pyenv)
       libaio-devel \
       bzip2-devel \
       glibc-devel \
@@ -54,26 +53,32 @@ RUN dnf -y install java-11-openjdk && \
 
 CMD [ "/bin/bash" ]
 
-RUN git clone "https://github.com/pyenv/pyenv.git" ./pyenv && \
-    (cd pyenv/plugins/python-build && ./install.sh) && \
-    rm -rf pyenv
+# Install uv, the fast Python package manager
+RUN curl -LsSf https://astral.sh/uv/install.sh -o /tmp/uv-install.sh && \
+  sh /tmp/uv-install.sh && \
+  rm -f /tmp/uv-install.sh
 
+# Add uv to the PATH
+ENV PATH="/root/.local/bin:${PATH}"
+
+# Set the desired Python version
 ARG VERSION_PYTHON=3.11.13
-RUN python-build --no-warn-script-location ${VERSION_PYTHON} /opt/python
 
-ENV PATH="/opt/python/bin:${PATH}"
+# Create a virtual environment. uv will download the specified Python version.
+RUN uv venv /opt/venv --python ${VERSION_PYTHON}
 
-RUN python -m pip install --upgrade pip setuptools wheel
+# Set VIRTUAL_ENV and prepend the venv's bin directory to the PATH.
+ENV VIRTUAL_ENV="/opt/venv"
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-COPY requirements.txt /
-RUN python -m pip install --no-cache-dir -r requirements.txt latentmi \
-    git+https://github.com/bckim92/language-evaluation.git && \
-    python -m pip install natten==0.17.5+torch250cu124 -f https://shi-labs.com/natten/wheels/&& \
-    python -c "import language_evaluation; language_evaluation.download('coco')" && \
-    rm -rf /root/.cache/pip requirements.txt
+COPY pyproject.toml /
+RUN uv sync --active && \
+    uv pip install natten==0.17.5+torch250cu124 -f https://shi-labs.com/natten/wheels/ && \
+    uv run python -c "import language_evaluation; language_evaluation.download('coco')"
 
-# Final clean
-RUN rm -rf /tmp/*
+# Final clean up
+RUN uv cache clean && \
+    rm -rf /tmp/* /uv.lock /pyproject.toml
 
 ENV PYTHONUNBUFFERED=1
 ENTRYPOINT ["/bin/bash", "-c"]
