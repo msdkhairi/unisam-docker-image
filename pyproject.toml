@@ -41,6 +41,12 @@ dependencies = [
     "mmengine==0.10.7",
     #"natten==0.17.5+torch250cu124",
     "language-evaluation",
+    "tikzplotlib",
+    "jpeg4py",
+    "lmdb",
+    "pandas",
+    "scipy",
+    "loguru",
 ]
 
 # development dependencies
