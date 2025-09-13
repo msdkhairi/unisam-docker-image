@@ -44,7 +44,7 @@ RUN dnf -y update && dnf -y install dnf-plugins-core && \
       openssl-devel \
       tk-devel \
       openal-soft \
-      which && \
+      which \
       java-11-openjdk && \
     dnf clean all && rm -rf /var/cache/dnf /tmp/*
 
