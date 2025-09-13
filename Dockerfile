@@ -73,10 +73,8 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 COPY pyproject.toml /
 RUN uv sync --active && \
-    uv run --active sh -c "\
-        uv pip install --active natten==0.17.5+torch250cu124 -f https://shi-labs.com/natten/wheels/ && \
-        python -c 'import language_evaluation; language_evaluation.download(\"coco\")' \
-    "
+    uv run --active pip install natten==0.17.5+torch250cu124 -f https://shi-labs.com/natten/wheels/ && \
+    uv run --active python -c "import language_evaluation; language_evaluation.download('coco')"
 
 # Final clean up
 RUN uv cache clean && \
