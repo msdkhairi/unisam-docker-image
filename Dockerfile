@@ -45,10 +45,7 @@ RUN dnf -y update && dnf -y install dnf-plugins-core && \
       tk-devel \
       openal-soft \
       which && \
-    dnf clean all && rm -rf /var/cache/dnf /tmp/*
-
-# Install OpenJDK 11
-RUN dnf -y install java-11-openjdk && \
+      java-11-openjdk && \
     dnf clean all && rm -rf /var/cache/dnf /tmp/*
 
 CMD [ "/bin/bash" ]
@@ -73,7 +70,7 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 COPY pyproject.toml /
 RUN uv sync --active && \
-    uv run --active pip install natten==0.17.5+torch250cu124 -f https://shi-labs.com/natten/wheels/ && \
+    uv run --active python -m pip install natten==0.17.5+torch250cu124 -f https://shi-labs.com/natten/wheels/ && \
     uv run --active python -c "import language_evaluation; language_evaluation.download('coco')"
 
 # Final clean up
