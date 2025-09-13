@@ -23,7 +23,7 @@ dependencies = [
     "torchmetrics==1.6.1",
     "tensorboard==2.18.0",
     "matplotlib==3.10.0",
-    "opencv-python==4.11.0.86",
+    "opencv-python-headless==4.11.0.86",
     "kornia==0.8.0",
     "iopath==0.1.10",
     "json-tricks==3.17.3",
