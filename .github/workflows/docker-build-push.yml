@@ -3,8 +3,7 @@ name: Docker Build and Push to Docker Hub
 on:
   push:
     branches:
-      - main
-      - rockylinux
+      - uv
   workflow_dispatch: # Allow manual triggering
 
 jobs:
@@ -15,36 +14,36 @@ jobs:
         run: df -h
 
       # AGGRESSIVE CLEANUP - RUN THESE FIRST
-      - name: Free Disk Space using jlumbroso action
-        uses: jlumbroso/free-disk-space@main
-        with:
-          tool-cache: true
-          android: true
-          dotnet: true
-          haskell: true
-          large-packages: true
-          docker-images: true # This will remove existing Docker images
-          swap-storage: true
+      # - name: Free Disk Space using jlumbroso action
+      #   uses: jlumbroso/free-disk-space@main
+      #   with:
+      #     tool-cache: true
+      #     android: true
+      #     dotnet: true
+      #     haskell: true
+      #     large-packages: true
+      #     docker-images: true # This will remove existing Docker images
+      #     swap-storage: true
 
-      - name: Clean apt cache
-        run: |
-          sudo apt-get clean
-          sudo rm -rf /var/lib/apt/lists/*
+      # - name: Clean apt cache
+      #   run: |
+      #     sudo apt-get clean
+      #     sudo rm -rf /var/lib/apt/lists/*
 
-      - name: Delete huge unnecessary tools folder /opt/hostedtoolcache
-        run: sudo rm -rf /opt/hostedtoolcache # Added sudo in case of permission issues
+      # - name: Delete huge unnecessary tools folder /opt/hostedtoolcache
+      #   run: sudo rm -rf /opt/hostedtoolcache # Added sudo in case of permission issues
 
-      - name: Delete even more unnecessary tools folder in /opt
-        run: | # Added sudo and corrected find command slightly
-          cd /opt && sudo find . -maxdepth 1 -mindepth 1 \
-          '!' -path ./containerd \
-          '!' -path ./actionarchivecache \
-          '!' -path ./runner \
-          '!' -path ./runner-cache \
-          -exec sudo rm -rf '{}' ';'
+      # - name: Delete even more unnecessary tools folder in /opt
+      #   run: | # Added sudo and corrected find command slightly
+      #     cd /opt && sudo find . -maxdepth 1 -mindepth 1 \
+      #     '!' -path ./containerd \
+      #     '!' -path ./actionarchivecache \
+      #     '!' -path ./runner \
+      #     '!' -path ./runner-cache \
+      #     -exec sudo rm -rf '{}' ';'
 
-      - name: Check Disk Space After Initial Cleanup
-        run: df -h
+      # - name: Check Disk Space After Initial Cleanup
+      #   run: df -h
 
       - name: Checkout code
         uses: actions/checkout@v4
