@@ -58,21 +58,6 @@ RUN curl -LsSf https://astral.sh/uv/install.sh -o /tmp/uv-install.sh && \
 # Add uv to the PATH
 ENV PATH="/root/.local/bin:${PATH}"
 
-# Set the desired Python version
-ARG VERSION_PYTHON=3.11.13
-
-# Create a virtual environment. uv will download the specified Python version.
-RUN uv venv /opt/venv --python ${VERSION_PYTHON}
-
-# Set VIRTUAL_ENV and prepend the venv's bin directory to the PATH.
-ENV VIRTUAL_ENV="/opt/venv"
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
-COPY pyproject.toml /
-RUN uv sync --active && \
-    uv pip install natten==0.17.5+torch250cu124 -f https://whl.natten.org && \
-    uv run --active python -c "import language_evaluation; language_evaluation.download('coco')"
-
 # Final clean up
 RUN uv cache clean && \
     rm -rf /tmp/* /uv.lock /pyproject.toml
