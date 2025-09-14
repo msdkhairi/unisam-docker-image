@@ -1,5 +1,6 @@
 # FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
-FROM nvidia/cuda:13.0.0-cudnn-devel-rockylinux9
+# FROM nvidia/cuda:13.0.0-cudnn-devel-rockylinux9
+FROM nvidia/cuda:13.0.1-cudnn-devel-rockylinux10
 
 # Install necessary packages
 # Enable CRB, EPEL, and RPM Fusion (needed for ffmpeg and some extras)
