@@ -8,8 +8,8 @@ RUN dnf -y update && dnf -y install dnf-plugins-core && \
     dnf config-manager --set-enabled crb && \
     dnf -y install epel-release && \
     dnf -y install \
-      https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-9.noarch.rpm \
-      https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-9.noarch.rpm && \
+      https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-10.noarch.rpm \
+      https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-10.noarch.rpm && \
     dnf -y groupinstall "Development Tools" && \
     dnf -y install --allowerasing \
       ca-certificates \
