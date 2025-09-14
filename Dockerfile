@@ -45,7 +45,7 @@ RUN dnf -y update && dnf -y install dnf-plugins-core && \
       openssl-devel \
       tk-devel \
       openal-soft \
-      which \
+      which && \ 
     dnf clean all && rm -rf /var/cache/dnf /tmp/*
 
 CMD [ "/bin/bash" ]
