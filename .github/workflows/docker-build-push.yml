@@ -3,7 +3,6 @@ name: Docker Build and Push to Docker Hub
 on:
   push:
     branches:
-      - main
       - rockylinux
   workflow_dispatch: # Allow manual triggering
 

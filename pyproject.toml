@@ -41,7 +41,6 @@ dependencies = [
     "mmengine==0.10.7",
     #"natten==0.17.5+torch250cu124",
     "language-evaluation",
-    "tikzplotlib",
     "jpeg4py",
     "lmdb",
     "pandas",
@@ -75,7 +74,7 @@ natten = { index = "natten-whl" }
 language-evaluation = { git = "https://github.com/bckim92/language-evaluation.git" }
 
 # after installation, install natten
-# uv pip install natten==0.17.5+torch250cu124 -f https://shi-labs.com/natten/wheels/ 
+# uv pip install natten==0.17.5+torch250cu124 -f https://whl.natten.org 
 
 # after installation, activate environment (source .venv/bin/activate) and run this 
 # python -c "import language_evaluation; language_evaluation.download('coco')"

@@ -61,6 +61,9 @@ ENV PATH="/root/.local/bin:${PATH}"
 # Set the desired Python version
 ARG VERSION_PYTHON=3.11.13
 
+# Set the directory where Python versions will be installed
+ENV UV_PYTHON_INSTALL_DIR="/opt/python"
+
 # Create a virtual environment. uv will download the specified Python version.
 RUN uv venv /opt/venv --python ${VERSION_PYTHON}
 
