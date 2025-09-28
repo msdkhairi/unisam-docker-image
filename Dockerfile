@@ -46,7 +46,7 @@ RUN dnf -y update && dnf -y install dnf-plugins-core && \
       tk-devel \
       openal-soft \
       which \
-      java-11-openjdk && \
+      java-21-openjdk-headless && \
     dnf clean all && rm -rf /var/cache/dnf /tmp/*
 
 CMD [ "/bin/bash" ]
