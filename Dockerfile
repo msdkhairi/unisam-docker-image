@@ -69,7 +69,7 @@ RUN uv venv /opt/venv --python ${VERSION_PYTHON}
 ENV VIRTUAL_ENV="/opt/venv"
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-COPY pyproject.toml /
+COPY pyproject.toml
 RUN uv sync --active && \
     uv pip install natten==0.17.5+torch250cu124 -f https://whl.natten.org && \
     uv pip install --no-build-isolation "git+https://github.com/facebookresearch/detectron2.git" && \
