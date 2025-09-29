@@ -75,9 +75,14 @@ RUN uv sync --active && \
     uv pip install --no-build-isolation "git+https://github.com/facebookresearch/detectron2.git" && \
     uv run --active python -c "import language_evaluation; language_evaluation.download('coco')"
 
-# Final clean up
+# uv clean up
 RUN uv cache clean && \
-    rm -rf /tmp/* /uv.lock /pyproject.toml
+    rm -rf /uv.lock /pyproject.toml
+
+# Final clean up
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/*
 
 ENV PYTHONUNBUFFERED=1
 ENTRYPOINT ["/bin/bash", "-c"]
