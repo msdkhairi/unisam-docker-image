@@ -1,0 +1,70 @@
+FROM nvidia/cuda:13.0.2-cudnn-devel-ubuntu24.04
+
+# Install necessary packages
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \
+    apt-get install -yq --no-install-recommends \
+    apt-transport-https \
+    build-essential \
+    bzip2 \
+    ca-certificates \
+    curl \
+    ffmpeg \
+    libavcodec-extra \
+    git \
+    htop \
+    libaio-dev \
+    libbz2-dev \
+    libc6-dev \
+    libffi-dev \
+    libgdbm-dev \
+    libgl1-mesa-dev \
+    libglib2.0-0 \
+    liblzma-dev \
+    libncursesw5-dev \
+    libopenblas-dev \
+    libpq-dev \
+    libreadline-dev \
+    libsm6 \
+    libsqlite3-dev \
+    libssl-dev \
+    libxext6 \
+    libxrender1 \
+    lsb-release \
+    mercurial \
+    ninja-build \
+    cmake \
+    yasm \
+    openssh-client \
+    procps \
+    software-properties-common \
+    subversion \
+    tk-dev \
+    unzip \
+    wget
+CMD [ "/bin/bash" ]
+
+# Create directory for HM-18 installation
+RUN mkdir -p /opt
+
+# Install uv, the fast Python package manager
+RUN curl -LsSf https://astral.sh/uv/install.sh -o /tmp/uv-install.sh && \
+  sh /tmp/uv-install.sh && \
+  rm -f /tmp/uv-install.sh
+
+# Add uv to the PATH
+ENV PATH="/root/.local/bin:${PATH}"
+
+# Install HM-18
+RUN git clone https://vcgit.hhi.fraunhofer.de/jvet/HM.git /opt/HM && \
+    mkdir -p /opt/HM/build && cd /opt/HM/build && \
+    cmake .. -DCMAKE_BUILD_TYPE=Release && \
+    make -j$(nproc)
+
+# Final clean up
+RUN uv cache clean && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /uv.lock /pyproject.toml
+
+ENV PYTHONUNBUFFERED=1
+ENTRYPOINT ["/bin/bash", "-c"]

@@ -14,7 +14,6 @@ RUN dnf -y update && dnf -y install dnf-plugins-core && \
     dnf -y install --allowerasing \
       ca-certificates \
       curl \
-      ffmpeg \
       git \
       htop \
       mercurial \
@@ -25,6 +24,9 @@ RUN dnf -y update && dnf -y install dnf-plugins-core && \
       unzip \
       wget \
       bzip2 \
+      ffmpeg \
+      ffmpeg-libs \
+      gstreamer1-libav \
       libaio-devel \
       bzip2-devel \
       glibc-devel \

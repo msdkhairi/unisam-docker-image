@@ -71,7 +71,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: . # Path to Dockerfile context
-          file: ./Dockerfile # Path to Dockerfile
+          file: ./Dockerfile_ubuntu # Path to Dockerfile
           platforms: linux/amd64 # Specify platforms if needed, e.g., linux/amd64,linux/arm64
           push: true
           tags: |
