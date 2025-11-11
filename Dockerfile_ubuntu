@@ -61,6 +61,19 @@ RUN git clone https://vcgit.hhi.fraunhofer.de/jvet/HM.git /opt/HM && \
     cmake .. -DCMAKE_BUILD_TYPE=Release && \
     make -j$(nproc)
 
+# Set the desired Python version
+ARG VERSION_PYTHON=3.12.12
+
+# Create a virtual environment. uv will download the specified Python version.
+RUN uv venv /opt/venv --python ${VERSION_PYTHON}
+
+# Set VIRTUAL_ENV and prepend the venv's bin directory to the PATH.
+ENV VIRTUAL_ENV="/opt/venv"
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+COPY pyproject.toml /
+RUN uv sync --active
+
 # Final clean up
 RUN uv cache clean && \
     apt-get clean && \
