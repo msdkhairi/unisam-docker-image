@@ -74,9 +74,12 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 COPY pyproject.toml /
 RUN uv sync --active
 
-# Final clean up
-RUN uv cache clean && \
-    apt-get clean && \
+# # Final clean up
+# RUN uv cache clean && \
+#     apt-get clean && \
+#     rm -rf /var/lib/apt/lists/* /tmp/* /uv.lock /pyproject.toml
+
+RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /uv.lock /pyproject.toml
 
 ENV PYTHONUNBUFFERED=1
