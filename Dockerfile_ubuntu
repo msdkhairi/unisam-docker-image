@@ -47,13 +47,16 @@ CMD [ "/bin/bash" ]
 # Create directory for HM-18 installation
 RUN mkdir -p /opt
 
+ENV UV_INSTALL_DIR=/opt/uv
+
 # Install uv, the fast Python package manager
 RUN curl -LsSf https://astral.sh/uv/install.sh -o /tmp/uv-install.sh && \
   sh /tmp/uv-install.sh && \
   rm -f /tmp/uv-install.sh
 
 # Add uv to the PATH
-ENV PATH="/root/.local/bin:${PATH}"
+# ENV PATH="/root/.local/bin:${PATH}"
+ENV PATH="/opt/uv/bin:${PATH}"
 
 # Install HM-18
 RUN git clone https://vcgit.hhi.fraunhofer.de/jvet/HM.git /opt/HM && \
