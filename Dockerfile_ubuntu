@@ -40,6 +40,7 @@ RUN apt-get update && \
     openssh-client \
     procps \
     software-properties-common \
+    parallel \
     subversion \
     tk-dev \
     unzip \
