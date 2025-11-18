@@ -6,12 +6,12 @@ authors = [{ name = "Masoud" }]
 requires-python = ">=3.12, <3.13"
 
 dependencies = [
-    "torch==2.9.0",
-    "torchvision==0.24.0",
+    "torch==2.9.1",
+    "torchvision==0.24.1",
     # "sam-2",
     "matplotlib==3.10.7",
     # "tikzplotlib",
-    "jpeg4py",
+    "jpeg4py==0.1.4",
     "opencv-python==4.12.0.88",
     "lmdb==1.7.5",
     "pandas==2.3.3",
