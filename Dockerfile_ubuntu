@@ -36,6 +36,7 @@ RUN apt-get update && \
     mercurial \
     ninja-build \
     cmake \
+    g++ \
     yasm \
     openssh-client \
     procps \

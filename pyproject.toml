@@ -30,6 +30,9 @@ dependencies = [
     "bd-metric",
     "pillow",
     "pybind11",
+    "ninja",
+    "wheel",
+    "setuptools",
 ]
 
 [tool.uv]
