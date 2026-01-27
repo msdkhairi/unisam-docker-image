@@ -26,6 +26,10 @@ dependencies = [
     "boto3==1.40.72",
     "rich",
     "nvidia-ml-py",
+    "tqdm",
+    "bd-metric",
+    "pillow",
+    "pybind11",
 ]
 
 [tool.uv]
